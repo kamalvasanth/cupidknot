@@ -21,37 +21,11 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/', function () {
     return redirect()->route('home');
 });
+Route::get('register',[RegistrationController::class,'showRegistrationForm']);
+Route::post('register',[RegistrationController::class,'showRegistrationForm']);
 Route::get('/auth/google/redirect',[LoginController::class,'googleRedirect']);
-// Route::get('/auth/google/redirect',function(){
-//     return Socialite::driver('google')->stateless()->redirect();
-// });
+
 Route::get('/auth/google/callback',[LoginController::class,'handleGoogleCallback']);
-
-
-
-// Route::get('auth/google/callback',function(){
-//     try {
-//         $user     = Socialite::driver('google')->stateless()->user();
-//         $finduser = User::where('google_id', $user->id)->first();
-//         if ($finduser) {
-//             Auth::login($finduser);
-//             return  redirect('/home');
-//         } else {
-//             $newUser = User::create([
-//             'first_name' => $user->name,
-//             'email' => $user->email,
-//             'google_id'=> $user->id
-//         ]);
-//             Auth::login($newUser);
-//             return redirect('/home');
-//         }
-//     }
-//         catch (Exception $e) {      
-//         return redirect('/home');
-//     }
-    
-// });
-
 
 Auth::routes();
 

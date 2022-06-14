@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Gender;
+use App\Models\FamilyType;
+use App\Models\Occupation;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -22,7 +27,6 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -74,6 +78,29 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+    public function showRegistrationForm()
+    {
+        $occupations      = Occupation::all();
+        $genders          = Gender::all();
+        $family_types     = FamilyType::all();
+        return view('auth.register',compact('occupations','genders','family_types'));
+    }
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $preferences = ['occupations','family_types','annual_income_range','manglik_preference'];
+        foreach($preferences as $preference) {
+            $data[$preference] = $request->all()[$preference];
+            unset($request->all()[$preference]);
+        }
+
+        event(new Registered($user = $this->create($request->all())));
+        $user->createPartnerPreference($data);
+
+        return $request->wantsJson()
+                    ? new JsonResponse([], 201)
+                    : redirect('/login')->with('success','Registration Success!, Login to continue...');
+    }
     protected function create(array $data)
     { 
         $data['password'] = Hash::make($data['password']);
