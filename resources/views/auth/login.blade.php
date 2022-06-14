@@ -63,7 +63,7 @@
                                     {{ __('Login') }}
                                 </button>
                                 <a  href="/auth/google/redirect"  class="btn btn-dark font-weight-bold">
-                                   <img src="/media/icons/icons8-google-24.png"/> Signin with Google
+                                   <img src="/media/icons/icons8-google-24.png"/> Sign in with Google
                                 </a>
 
                                 @if (Route::has('password.request'))

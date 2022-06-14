@@ -34,7 +34,7 @@
                                     Date Of Birth     
                                 </div>
                                 <div class="col-6">
-                                    {{$user->dob ?? null}}
+                                    {{$user->dob ?? null}} ({{ Carbon\Carbon::parse($user->dob)->diffInYears() }} Years)
                                 </div>
                             </div>
                         </div>
@@ -176,10 +176,10 @@
                                                         <div class="col-12 mt-1">
                                                             <div class="row">
                                                                 <div class="col-6 font-weight-bold">
-                                                                    DOB 
+                                                                    Age 
                                                                 </div>
                                                                 <div class="col-6">
-                                                                    {{$prospect->dob}}
+                                                                    {{ Carbon\Carbon::parse($prospect->dob)->diffInYears() }} Years
                                                                 </div>
                                                             </div>
                                                         </div>

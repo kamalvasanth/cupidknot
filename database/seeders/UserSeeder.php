@@ -19,8 +19,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $admin_user = User::where('email','admin@cupidknot.com')->get();
-        if(!$admin_user) {
+        $admin_user = User::where('email','admin@cupidknot.com')->first();
+        if(empty($admin_user)) {
             User::create([
                 'first_name' =>'Admin',
                 'last_name'=>'Cupidknot',
@@ -37,6 +37,24 @@ class UserSeeder extends Seeder
                 'is_admin' => 1
             ]);
         }
-        User::factory()->count(20)->create();
+        $users = User::factory()->count(20)->create();
+        $occupation_ids = Occupation::all()->pluck('id')->toArray();
+        $family_type_ids = FamilyType::all()->pluck('id')->toArray();
+        $users->map(function($user) use($occupation_ids,$family_type_ids){
+            $annual_income_minimum = range(100000,1000000);
+            $annual_income_min_key    = array_rand(range(100000,1000000));
+            $annual_income_maximum = range(1000000,2000000);
+            $annual_income_max_key    = array_rand(range(1000000,2000000));
+            $user->partner_preferences()->create([
+                'annual_income_minimum' => $annual_income_minimum[$annual_income_min_key], 
+                'annual_income_maximum' => $annual_income_maximum[$annual_income_max_key], 
+                'manglik' => array_rand(['yes','No','Both']), 
+            ]);
+            shuffle($occupation_ids);
+            shuffle($family_type_ids);
+            $user->partner_preferences->occupations()->attach([$occupation_ids[0],$occupation_ids[1]]);
+            $user->partner_preferences->family_types()->attach([$family_type_ids[0]]);
+        });
+
     }
 }

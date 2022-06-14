@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class UserController extends Controller
 {
@@ -23,10 +24,11 @@ class UserController extends Controller
     }
     public function update($user_id)
     {
-       $user = User::find($user_id);
+       $user     = User::find($user_id);
+       $password = $user->password;
        $data = request()->validate([
             'first_name'     => ['required', 'string', 'max:20'],
-            'password'       => ['required', 'string', 'min:8'],
+            'password'       => [new RequiredIf($password == null), 'string', 'min:8'],
             'dob'            =>  'required',
             'gender_id'      =>  'required',
             'annual_income'  =>  'required',

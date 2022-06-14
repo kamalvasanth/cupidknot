@@ -37,7 +37,7 @@
                             <div class="form-row mt-2">
                                 <div class="col-12 col-md-6">
                                     <label class="font-weight-bold" for="password">Password</label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                                     <div class="text-danger">{{ $errors->first('password') }}</div>
                                 </div>
                             </div>
@@ -176,7 +176,6 @@
 <script>
 
     $( function() {
-        console.log(123);
       $( "#slider-range" ).slider({
         range: true,
         min: 100000,
@@ -186,8 +185,8 @@
           $( "#amount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
         }
       });
-      $( "#amount" ).val( "₹" + $( "#slider-range" ).slider( "values", 0 ) +
-        " - ₹" + $( "#slider-range" ).slider( "values", 1 ) );
+      $( "#amount" ).val($( "#slider-range" ).slider( "values", 0 ) +
+        "-" + $( "#slider-range" ).slider( "values", 1 ) );
     } );
     </script>
     @stop

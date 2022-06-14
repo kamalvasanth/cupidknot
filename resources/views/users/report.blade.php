@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container">
+
 <div class="card shadow-lg">
     <div class="card-header text-white bg-dark">
       <div class="row justify-content-between">
         <div class="col-12 col-md-6 text-center text-md-left">
-          <h3>Users List</h3>
+          <h5 class="font-weight-bold">Users List</h5>
         </div>
       </div>
     </div>
@@ -15,7 +17,7 @@
           {{-- filters begin --}}
           <form id="user_list" action="{{ route('users.report') }}" method="GET">
             <div class="row justify-content-start">
-                <div class="form-group col-12 col-md-2">
+                <div class="form-group col-12 col-md-3">
                     <label for="gender_id" class="h5 font-weight-bold text-dark">Gender</label>
                     <select name="gender_id" id="gender_id" class="form-control">
                       <option value="" >All</option>
@@ -24,7 +26,7 @@
                       @endforeach
                     </select>
                   </div>
-              <div class="form-group col-12 col-md-2">
+              <div class="form-group col-12 col-md-3">
                 <label for="occupation_id" class="h5 font-weight-bold text-dark">Occupation</label>
                 <select name="occupation_id" id="occupation_id" class="form-control">
                   <option value="" selected>All</option>
@@ -33,7 +35,7 @@
                   @endforeach
                 </select>
               </div>
-              <div class="form-group col-12 col-md-2">
+              <div class="form-group col-12 col-md-3">
                 <label for="family_type_id" class="h5 font-weight-bold text-dark">Family Type</label>
                 <select name="family_type_id" id="family_type_id" class="form-control">
                   <option value="" >All</option>
@@ -42,7 +44,7 @@
                   @endforeach
                 </select>
               </div>
-              <div class="form-group col-12 col-md-2">
+              <div class="form-group col-12 col-md-3">
                 <label for="manglik" class="h5 font-weight-bold text-dark">Manglik</label>
                 <select name="manglik" id="manglik" class="form-control">
                   <option value="" >Both</option>
@@ -53,20 +55,20 @@
 
               <div class="col-12 mt-10">
                   <div class="row mt-10">
-                      <div class="form-group col-6 col-md-2">
+                      <div class="form-group col-6 col-md-3">
                         <label for="manglik" class="h5 font-weight-bold text-dark">Age</label>
                         <input required type="text" name="age_range" id="age_range"
                             style="border:0; font-weight:bold;">
                             <div id="age-slider-range"></div>
                         </div>
-                        <div class="form-group col-6 col-md-2">
+                        <div class="form-group col-6 col-md-3">
                         <label for="annual_income_range" class="h5 font-weight-bold text-dark">Annual Income ₹ </label>
                             <input  type="text" name="annual_income_range"
                                 id="annual_income_range" style="border:0; font-weight:bold;"
                                 class=" @error('annual_income_range') is-invalid @enderror">
                             <div id="slider-range"></div>
                         </div>
-                        <div class="col-6  d-flex align-items-center">
+                        <div class="col-6 d-flex align-items-center justify-content-end pr-5">
                             <div class="row ">
                                 <div class="mr-2">
                                     <button class="btn btn-primary mr-10">Sumbit</button>
@@ -87,20 +89,14 @@
         </div>
       </div>
       </div>
-    </div>
   
     <div class="card shadow-lg mt-5">
-      <div class="card-header text-white">
-        <div class="row justify-content-between">
-          <div class="col-12 col-md-6 text-dark font-weight-bold">
-            {{-- <h3>{{ 'There are ' .$total.' Plan page views from ' .Carbon\Carbon::parse($query['from_date'])->format('d-m-Y'). ((isset($query['to_date'])) ? " to " .Carbon\Carbon::parse($query['to_date'])->format('d-m-Y') : null)}} </h3> --}}
-          </div>
-         
+        <div class="card-header h5">
+            Total users: {{sizeOf($users)}}
         </div>
-      </div>
     <div class="card-body">
-      <div class="table-responsive-sm">
-        <table class="table table-hover table-bordered bg-white text-center">
+      <div class="table-responsive">
+        <table class="table table-responsive table-hover table-bordered bg-white text-center">
           <thead class="bg-success text-dark">
             <tr>
               <td>#</td>
@@ -122,7 +118,7 @@
               <td>{{$user->first_name.'  '.$user->last_name}}</td>
               <td>{{$user->email}}</td>
               <td>{{$user->gender}}</td>
-              <td>{{($user->dob != null) ? Carbon\Carbon::parse($user->dob)->diffForHumans() : null}}</td>
+              <td>{{($user->dob != null) ? Carbon\Carbon::parse($user->dob)->diffInYears().' Years' : null}}</td>
               <td>{{$user->manglik}}</td>
               <td>{{$user->annual_income}}</td>
               <td>{{$user->family_type}}</td>
@@ -141,7 +137,9 @@
       </div>
     </div>
   </div>
-  </div>
+</div>
+    </div>
+</div>
 
 @endsection
 @section('scripts')
