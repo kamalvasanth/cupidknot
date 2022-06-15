@@ -94,7 +94,7 @@ class RegisterController extends Controller
             unset($request->all()[$preference]);
         }
 
-        event(new Registered($user = $this->create($request->all())));
+        $user = $this->create($request->all());
         $user->createPartnerPreference($data);
 
         return $request->wantsJson()

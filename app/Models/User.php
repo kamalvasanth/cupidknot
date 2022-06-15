@@ -65,7 +65,7 @@ class User extends Authenticatable
         $manglik       = $data['manglik_preference'];
         $partner_preference =  $this->partner_preferences()->create([
             'annual_income_minimum' => intval($annual_income[0]),
-            'annual_income_maximum' => intval($annual_income[1]),
+            'annual_income_maximum' => intval($annual_income[1] ?? 2000000) ,
             'manglik'               => $manglik,
         ]);
 

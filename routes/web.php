@@ -21,10 +21,7 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/', function () {
     return redirect()->route('home');
 });
-Route::get('register',[RegistrationController::class,'showRegistrationForm']);
-Route::post('register',[RegistrationController::class,'showRegistrationForm']);
 Route::get('/auth/google/redirect',[LoginController::class,'googleRedirect']);
-
 Route::get('/auth/google/callback',[LoginController::class,'handleGoogleCallback']);
 
 Auth::routes();
