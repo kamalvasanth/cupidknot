@@ -1,8 +1,12 @@
+**Add database connection and google credentials in env**
+
+**Generate app key: php artisan key:generate**
+
+Run migration and  **php artisan db:seed** to create test datas
+
 **Admin Credential** 
 email:admin@cupidknot.com, 
 password: password
-
-Run **php artisan db:seed** to create test datas
 
 **Login page**
 ![loginPage](https://user-images.githubusercontent.com/80084653/173676291-584604f2-3953-4571-af7d-36e496e8b049.png)
